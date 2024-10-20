@@ -25,8 +25,9 @@ from account.views import RegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/register/', RegisterView.as_view(), name="sign_up"),
+    path('account/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('account/login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('account/register/', RegisterView.as_view(), name="sign_up"),
     path('account/', include('account.urls')),
+    path('post/', include('post.urls')),
 ]

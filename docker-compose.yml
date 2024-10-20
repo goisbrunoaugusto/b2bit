@@ -6,7 +6,7 @@ services:
     expose:
       - ${POSTGRES_PORT}
     volumes:
-      - ~/apps/postgres:/var/lib/postgresql/data1
+      - database:/var/lib/postgresql/data
     env_file:
       - .env
     environment:
