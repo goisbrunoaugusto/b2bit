@@ -17,12 +17,18 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class FollowSerializer(serializers.ModelSerializer):
-    follower_count = serializers.SerializerMethodField()
 
     class Meta:
         model = UserData
-        fields = ['follower_count']
+        fields = []
 
-    def get_follower_count(self, obj):
-        logging.debug(f'###################################################{obj}')
-        return obj.followers.count()
+
+class FollowerUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserData
+        fields = ['id', 'name', 'email']
+
+class FollowingUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserData
+        fields = ['id', 'name', 'email']
