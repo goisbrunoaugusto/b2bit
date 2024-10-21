@@ -1,9 +1,10 @@
 from .models import Post
 from .serializers import PostSerializer, LikeSerializer, EditSerializer
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 
 class CreatePostView(CreateAPIView):
     queryset = Post.objects.all()
@@ -18,8 +19,10 @@ class DeletePostView(RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return Post.objects.filter(user=self.request.user)
+    def perform_destroy(self, instance):
+        if instance.user != self.request.user:
+            return Response({"error: You do not have permission to delete this post."}, status=status.HTTP_403_FORBIDDEN)
+        instance.delete()
 
 class EditPostView(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
@@ -53,22 +56,33 @@ class LikePostView(CreateAPIView):
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
+    def post(self, request, *args, **kwargs):
         post = self.get_object()
-        user = self.request.user
+        user = request.user
 
         if post.like.filter(id=user.id).exists():
             post.like.remove(user)
+            message = "Post unliked successfully."
         else:
             post.like.add(user)
+            message = "Post liked successfully."
 
-        post.save()
+        return Response({
+            "message": message,
+            "likes_count": post.like.count()
+        }, status=status.HTTP_200_OK)
 
-    def get_object(self):
-        pk = self.kwargs.get('pk')
-        return Post.objects.get(pk=pk)
+class PostPagination(PageNumberPagination):
+    page_size = 5
 
-    def create(self, request, *args, **kwargs):
-        post = self.get_object()
-        self.perform_create(None)
-        return Response({'likes_count': post.like.count()})
+class FollowingPostsView(ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = PostPagination
+
+    def get_queryset(self):
+        user = self.request.user
+        following_users = user.following.all()
+
+        return Post.objects.filter(user__in=following_users).order_by('-created_at')
+

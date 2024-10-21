@@ -43,9 +43,14 @@ class FollowerListView(RetrieveUpdateDestroyAPIView):
     def retrieve(self, request, *args, **kwargs):
         user = request.user
         followers = user.followers.all()
+        total_followers = followers.count()
         serializer = self.get_serializer(followers, many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        response_data = {
+            "total_followers": total_followers,
+            "followers": serializer.data
+        }
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 class FollowingListView(RetrieveUpdateDestroyAPIView):
@@ -56,6 +61,12 @@ class FollowingListView(RetrieveUpdateDestroyAPIView):
     def retrieve(self, request, *args, **kwargs):
         user = request.user
         following = user.following.all()
+        total_following = following.count()
         serializer = self.get_serializer(following, many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        response_data ={
+            "total_following": total_following,
+            "following": serializer.data
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
