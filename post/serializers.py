@@ -16,10 +16,14 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class EditSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField()
+    post_owner = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['user', 'content', 'likes_count']
+        fields = ['user', 'content', 'likes_count', 'post_owner']
 
     def get_likes_count(self, obj):
         return obj.like.count()
+
+    def get_post_owner(self, obj):
+        return obj.user.email

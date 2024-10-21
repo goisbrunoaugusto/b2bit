@@ -1,6 +1,6 @@
 from .models import Post
 from .serializers import PostSerializer, LikeSerializer, EditSerializer
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -25,6 +25,12 @@ class EditPostView(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = EditSerializer
     permission_classes = [IsAuthenticated]
+    allowed_methods = ['PUT']
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method != 'PUT':
+            return Response({"error": "Method not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return super().dispatch(request, *args, **kwargs)
 
     def put(self, request, pk, *args, **kwargs):
         try:
@@ -32,7 +38,7 @@ class EditPostView(RetrieveUpdateDestroyAPIView):
         except Post.DoesNotExist:
             return Response({"error": "Post not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        if post.user != request.user:
+        if post.user.id != request.user.id:
             return Response({"error": "You do not have permission to edit this post."},
                             status=status.HTTP_403_FORBIDDEN)
 
@@ -64,5 +70,5 @@ class LikePostView(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         post = self.get_object()
-        self.perform_create(None)  # Chama o método perform_create para o toggle
+        self.perform_create(None)
         return Response({'likes_count': post.like.count()})
