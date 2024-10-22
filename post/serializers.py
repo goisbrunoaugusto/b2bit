@@ -4,10 +4,9 @@ from .models import Post
 class PostSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.email')
 
-
     class Meta:
         model = Post
-        fields = ['user', 'content', 'id', 'image']
+        fields = ['user', 'content', 'id', 'image', 'created_at']
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,3 +26,14 @@ class EditSerializer(serializers.ModelSerializer):
 
     def get_post_owner(self, obj):
         return obj.user.email
+
+class ListPostSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.email')
+    likes_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = ['user', 'content', 'id', 'likes_count', 'image','created_at']
+
+    def get_likes_count(self, obj):
+        return obj.like.count()

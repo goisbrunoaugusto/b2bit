@@ -19,6 +19,30 @@ services:
       interval: 10s
       retries: 5
 
+  redis:
+    image: redis:7.4.1-alpine
+    expose:
+      - ${REDIS_PORT}
+    volumes:
+      - redis_data:/var/lib/redis/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      retries: 5
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: celery
+    command: celery -A twitter_clone worker --loglevel=info
+    depends_on:
+      - redis
+      - backend
+    volumes:
+      - .:/app
+    env_file:
+      - .env
 
   backend:
     build:
@@ -26,6 +50,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     ports:
       - "8000:8000"
@@ -36,3 +62,4 @@ services:
 
 volumes:
   database:
+  redis_data:
