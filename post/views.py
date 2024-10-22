@@ -86,3 +86,11 @@ class FollowingPostsView(ListAPIView):
 
         return Post.objects.filter(user__in=following_users).order_by('-created_at')
 
+class UserPostsView(ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = PostPagination
+
+    def get_queryset(self):
+        user = self.request.user
+        return Post.objects.filter(user=user).order_by('-created_at')
