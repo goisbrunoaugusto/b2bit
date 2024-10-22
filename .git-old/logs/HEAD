@@ -1,0 +1,30 @@
+0000000000000000000000000000000000000000 398c03d8e8c9b7e13df1e92b1e240e0ce0855c30 goisbrunoaugusto <brunogois902@gmail.com> 1729372984 -0300	commit (initial): feat: first commit with auth and dockerized
+398c03d8e8c9b7e13df1e92b1e240e0ce0855c30 398c03d8e8c9b7e13df1e92b1e240e0ce0855c30 goisbrunoaugusto <brunogois902@gmail.com> 1729373060 -0300	checkout: moving from main to develop
+398c03d8e8c9b7e13df1e92b1e240e0ce0855c30 357c1420e555a7fd429f45ab60314fd65a7043ec goisbrunoaugusto <brunogois902@gmail.com> 1729465078 -0300	commit: feat: creation,edition, deletion and likes of posts
+357c1420e555a7fd429f45ab60314fd65a7043ec 357c1420e555a7fd429f45ab60314fd65a7043ec goisbrunoaugusto <brunogois902@gmail.com> 1729475988 -0300	checkout: moving from develop to follow
+357c1420e555a7fd429f45ab60314fd65a7043ec 46b14dbbecd3bea91031124be366ade6cebbb849 goisbrunoaugusto <brunogois902@gmail.com> 1729476094 -0300	commit: erro dict object has no attribute followers
+46b14dbbecd3bea91031124be366ade6cebbb849 5c717a1fc577dd98ad201bc2402ea96357b205cc goisbrunoaugusto <brunogois902@gmail.com> 1729539371 -0300	commit: feat: follow funcionando com endpoints para ver followers e following
+5c717a1fc577dd98ad201bc2402ea96357b205cc 5f05aa54a336ac19d4a8025274200c95d26ef362 goisbrunoaugusto <brunogois902@gmail.com> 1729544545 -0300	commit: feat: refatoração de LikePostView e criação do feed
+5f05aa54a336ac19d4a8025274200c95d26ef362 357c1420e555a7fd429f45ab60314fd65a7043ec goisbrunoaugusto <brunogois902@gmail.com> 1729549472 -0300	checkout: moving from follow to develop
+357c1420e555a7fd429f45ab60314fd65a7043ec 357c1420e555a7fd429f45ab60314fd65a7043ec goisbrunoaugusto <brunogois902@gmail.com> 1729549752 -0300	reset: moving to HEAD
+357c1420e555a7fd429f45ab60314fd65a7043ec 357c1420e555a7fd429f45ab60314fd65a7043ec root <root@bruno.(none)> 1729549839 -0300	reset: moving to HEAD
+357c1420e555a7fd429f45ab60314fd65a7043ec 357c1420e555a7fd429f45ab60314fd65a7043ec root <root@bruno.(none)> 1729549850 -0300	reset: moving to HEAD
+357c1420e555a7fd429f45ab60314fd65a7043ec cd003e4dcc02df767f83dfac7ca299eb72fbf806 goisbrunoaugusto <brunogois902@gmail.com> 1729552225 -0300	commit: feat: inclusao de imagem na criação de post
+cd003e4dcc02df767f83dfac7ca299eb72fbf806 cd003e4dcc02df767f83dfac7ca299eb72fbf806 root <root@bruno.(none)> 1729552720 -0300	reset: moving to HEAD
+cd003e4dcc02df767f83dfac7ca299eb72fbf806 cd003e4dcc02df767f83dfac7ca299eb72fbf806 root <root@bruno.(none)> 1729552733 -0300	reset: moving to HEAD
+cd003e4dcc02df767f83dfac7ca299eb72fbf806 cd003e4dcc02df767f83dfac7ca299eb72fbf806 root <root@bruno.(none)> 1729552887 -0300	reset: moving to HEAD
+cd003e4dcc02df767f83dfac7ca299eb72fbf806 cd003e4dcc02df767f83dfac7ca299eb72fbf806 root <root@bruno.(none)> 1729553089 -0300	reset: moving to HEAD
+cd003e4dcc02df767f83dfac7ca299eb72fbf806 6a6d1875ba98f34b4b4ef04717c644a8805564d6 goisbrunoaugusto <brunogois902@gmail.com> 1729553322 -0300	commit: chore: git ignore adicionado
+6a6d1875ba98f34b4b4ef04717c644a8805564d6 6a6d1875ba98f34b4b4ef04717c644a8805564d6 goisbrunoaugusto <brunogois902@gmail.com> 1729553412 -0300	checkout: moving from develop to temp
+6a6d1875ba98f34b4b4ef04717c644a8805564d6 6a6d1875ba98f34b4b4ef04717c644a8805564d6 goisbrunoaugusto <brunogois902@gmail.com> 1729553437 -0300	checkout: moving from temp to develop
+6a6d1875ba98f34b4b4ef04717c644a8805564d6 6a6d1875ba98f34b4b4ef04717c644a8805564d6 root <root@bruno.(none)> 1729553972 -0300	reset: moving to HEAD
+6a6d1875ba98f34b4b4ef04717c644a8805564d6 6a6d1875ba98f34b4b4ef04717c644a8805564d6 goisbrunoaugusto <brunogois902@gmail.com> 1729554065 -0300	checkout: moving from develop to temp
+6a6d1875ba98f34b4b4ef04717c644a8805564d6 6ddf8952f4911a0b90f595ef572b90c1e0a2ff17 goisbrunoaugusto <brunogois902@gmail.com> 1729554254 -0300	commit: chore: __pycache__ deleados
+6ddf8952f4911a0b90f595ef572b90c1e0a2ff17 6a6d1875ba98f34b4b4ef04717c644a8805564d6 goisbrunoaugusto <brunogois902@gmail.com> 1729554295 -0300	checkout: moving from temp to develop
+6a6d1875ba98f34b4b4ef04717c644a8805564d6 6ddf8952f4911a0b90f595ef572b90c1e0a2ff17 goisbrunoaugusto <brunogois902@gmail.com> 1729554317 -0300	checkout: moving from develop to temp
+6ddf8952f4911a0b90f595ef572b90c1e0a2ff17 6ddf8952f4911a0b90f595ef572b90c1e0a2ff17 root <root@bruno.(none)> 1729554324 -0300	checkout: moving from temp to temp
+6ddf8952f4911a0b90f595ef572b90c1e0a2ff17 6a6d1875ba98f34b4b4ef04717c644a8805564d6 goisbrunoaugusto <brunogois902@gmail.com> 1729554374 -0300	checkout: moving from temp to develop
+6a6d1875ba98f34b4b4ef04717c644a8805564d6 b10d4d22e4774219cea5cbb798c0e3ef1055754a goisbrunoaugusto <brunogois902@gmail.com> 1729554396 -0300	commit: chore: __pycache__ deleados
+b10d4d22e4774219cea5cbb798c0e3ef1055754a b10d4d22e4774219cea5cbb798c0e3ef1055754a root <root@bruno.(none)> 1729555084 -0300	reset: moving to HEAD
+b10d4d22e4774219cea5cbb798c0e3ef1055754a 7b823b0f5d179ad5c4108995e3a10a8ce453c87d goisbrunoaugusto <brunogois902@gmail.com> 1729555119 -0300	checkout: moving from develop to development
+7b823b0f5d179ad5c4108995e3a10a8ce453c87d 0d69ce49e08a0db69eff0d3424a1a55fea2b1a56 goisbrunoaugusto <brunogois902@gmail.com> 1729555592 -0300	commit: feat: inclusao de imagem na criação de post

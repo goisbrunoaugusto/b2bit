@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 357c1420e555a7fd429f45ab60314fd65a7043ec goisbrunoaugusto <brunogois902@gmail.com> 1729475978 -0300	branch: Created from develop
+357c1420e555a7fd429f45ab60314fd65a7043ec 46b14dbbecd3bea91031124be366ade6cebbb849 goisbrunoaugusto <brunogois902@gmail.com> 1729476094 -0300	commit: erro dict object has no attribute followers
+46b14dbbecd3bea91031124be366ade6cebbb849 5c717a1fc577dd98ad201bc2402ea96357b205cc goisbrunoaugusto <brunogois902@gmail.com> 1729539371 -0300	commit: feat: follow funcionando com endpoints para ver followers e following
+5c717a1fc577dd98ad201bc2402ea96357b205cc 5f05aa54a336ac19d4a8025274200c95d26ef362 goisbrunoaugusto <brunogois902@gmail.com> 1729544545 -0300	commit: feat: refatoração de LikePostView e criação do feed
