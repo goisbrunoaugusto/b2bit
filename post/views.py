@@ -109,7 +109,6 @@ class FollowingPostsView(ListAPIView):
         page_number = request.query_params.get('page', 1)
         cache_key = f"following_posts_{user.id}_page_{page_number}"
         cached_data = cache.get(cache_key)
-        logging.info(f'########################### cache key:{cache_key}')
 
         if cached_data:
             return Response(cached_data)
@@ -141,7 +140,6 @@ class UserPostsView(ListAPIView):
         user = self.request.user
         page_number = request.query_params.get('page', 1)
         cache_key = f"my_posts_{user.id}_page_{page_number}"
-        logging.info(f'########################### cache key:{cache_key}')
 
         cached_data = cache.get(cache_key)
 

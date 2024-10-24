@@ -15,9 +15,11 @@ from dotenv import load_dotenv
 import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+#Config to use .env
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 
+#Config to receive image in requests
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -111,6 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#SimpleJWT/Rest Framework config
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -122,6 +125,7 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'account.UserData'
 
+#Redis config
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -137,8 +141,16 @@ CACHES = {
 #Time of cache persistence = 15min
 CACHE_TTL = 60 * 15
 
+#Celery config
 CELERY_BROKER_URL = os.environ.get("BROKER_URL", "redis://localhost:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("RESULT_BACKEND", "redis://localhost:6379/0")
+
+#Config to send mail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'maildev'
+EMAIL_PORT = 1025
+DEFAULT_FROM_EMAIL = 'no-reply@example.com'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

@@ -53,12 +53,24 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      maildev:
+        condition: service_healthy
     ports:
       - "8000:8000"
     volumes:
       - .:/app
     env_file:
       - .env
+
+  maildev:
+    image: maildev/maildev:2.1.0
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "http://0.0.0.0:1080/" ]
+      interval: 10s
+      retries: 3
 
 volumes:
   database:

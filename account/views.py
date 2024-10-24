@@ -1,7 +1,9 @@
 from rest_framework.views import APIView
+
+from .tasks import send_follow_notification_email
 from .serializers import UserSerializer, FollowSerializer, FollowingUserSerializer, FollowerUserSerializer
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListAPIView
 from .models import UserData
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
@@ -32,19 +34,23 @@ class FollowView(RetrieveUpdateDestroyAPIView):
             user_to_follow.followers.add(request_user)
             request_user.following.add(user_to_follow)
             message = "Followed"
+            send_follow_notification_email.delay(request_user.email, user_to_follow.email)
 
         return Response(message)
 
-class FollowerListView(RetrieveUpdateDestroyAPIView):
-    queryset = UserData.objects.all()
+
+class FollowerListView(ListAPIView):
     serializer_class = FollowerUserSerializer
     permission_classes = [IsAuthenticated]
 
-    def retrieve(self, request, *args, **kwargs):
-        user = request.user
-        followers = user.followers.all()
-        total_followers = followers.count()
-        serializer = self.get_serializer(followers, many=True)
+    def get_queryset(self):
+        user = self.request.user
+        return user.followers.all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        total_followers = queryset.count()
+        serializer = self.get_serializer(queryset, many=True)
 
         response_data = {
             "total_followers": total_followers,
@@ -53,20 +59,21 @@ class FollowerListView(RetrieveUpdateDestroyAPIView):
         return Response(response_data, status=status.HTTP_200_OK)
 
 
-class FollowingListView(RetrieveUpdateDestroyAPIView):
-    queryset = UserData.objects.all()
+class FollowingListView(ListAPIView):
     serializer_class = FollowingUserSerializer
     permission_classes = [IsAuthenticated]
 
-    def retrieve(self, request, *args, **kwargs):
-        user = request.user
-        following = user.following.all()
-        total_following = following.count()
-        serializer = self.get_serializer(following, many=True)
+    def get_queryset(self):
+        user = self.request.user
+        return user.following.all()
 
-        response_data ={
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        total_following = queryset.count()
+        serializer = self.get_serializer(queryset, many=True)
+
+        response_data = {
             "total_following": total_following,
             "following": serializer.data
         }
-
         return Response(response_data, status=status.HTTP_200_OK)
