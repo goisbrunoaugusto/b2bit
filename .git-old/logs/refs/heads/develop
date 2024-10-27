@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 398c03d8e8c9b7e13df1e92b1e240e0ce0855c30 goisbrunoaugusto <brunogois902@gmail.com> 1729373053 -0300	branch: Created from main
+398c03d8e8c9b7e13df1e92b1e240e0ce0855c30 357c1420e555a7fd429f45ab60314fd65a7043ec goisbrunoaugusto <brunogois902@gmail.com> 1729465078 -0300	commit: feat: creation,edition, deletion and likes of posts
+357c1420e555a7fd429f45ab60314fd65a7043ec cd003e4dcc02df767f83dfac7ca299eb72fbf806 goisbrunoaugusto <brunogois902@gmail.com> 1729552225 -0300	commit: feat: inclusao de imagem na criação de post
+cd003e4dcc02df767f83dfac7ca299eb72fbf806 6a6d1875ba98f34b4b4ef04717c644a8805564d6 goisbrunoaugusto <brunogois902@gmail.com> 1729553322 -0300	commit: chore: git ignore adicionado
+6a6d1875ba98f34b4b4ef04717c644a8805564d6 b10d4d22e4774219cea5cbb798c0e3ef1055754a goisbrunoaugusto <brunogois902@gmail.com> 1729554396 -0300	commit: chore: __pycache__ deleados
