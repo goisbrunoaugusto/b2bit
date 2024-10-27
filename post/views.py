@@ -2,7 +2,7 @@ import logging
 
 from .models import Post
 from .serializers import PostSerializer, LikeSerializer, EditSerializer, ListPostSerializer
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.views.decorators.vary import vary_on_headers
 from django.core.cache import cache
+from rest_framework.exceptions import PermissionDenied
 
 def clear_user_cache(user_id):
     for page_number in cache.keys(f"*{user_id}*"):
@@ -26,15 +27,23 @@ class CreatePostView(CreateAPIView):
         clear_user_cache(self.request.user.id)
         serializer.save(user=self.request.user)
 
-class DeletePostView(RetrieveUpdateDestroyAPIView):
+
+class DeletePostView(DestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
-    def perform_destroy(self, instance):
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
         if instance.user != self.request.user:
-            return Response({"error: You do not have permission to delete this post."}, status=status.HTTP_403_FORBIDDEN)
-        clear_user_cache(self.request.user.id)
+            raise PermissionDenied("You do not have permission to delete this post.")
+
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_destroy(self, instance):
+        clear_user_cache(instance.user.id)
         instance.delete()
 
 class EditPostView(RetrieveUpdateDestroyAPIView):
