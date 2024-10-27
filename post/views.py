@@ -77,14 +77,12 @@ class LikePostView(CreateAPIView):
         if post.like.filter(id=user.id).exists():
             post.like.remove(user)
             clear_user_cache(self.request.user.id)
-            message = "Post unliked successfully."
         else:
             post.like.add(user)
             clear_user_cache(self.request.user.id)
-            message = "Post liked successfully."
 
         return Response({
-            "message": message,
+            "id": post.id,
             "likes_count": post.like.count()
         }, status=status.HTTP_200_OK)
 

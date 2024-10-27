@@ -1,21 +1,43 @@
-from rest_framework.views import APIView
-
 from .tasks import send_follow_notification_email
-from .serializers import UserSerializer, FollowSerializer, FollowingUserSerializer, FollowerUserSerializer
+from .serializers import UserSerializer, FollowSerializer, FollowingUserSerializer, FollowerUserSerializer, \
+    UserInfoSerializer
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView
 from .models import UserData
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 
-class RegisterView(APIView):
+class RegisterView(CreateAPIView):
     permission_classes = [AllowAny]
+    serializer_class = UserSerializer
 
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class UserInfoView(RetrieveUpdateDestroyAPIView):
+    serializer_class = UserInfoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        serializer = self.get_serializer(user)
         return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        user = request.user
+        serializer = self.get_serializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def delete(self, request, *args, **kwargs):
+        user = request.user
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class FollowView(RetrieveUpdateDestroyAPIView):
     queryset = UserData.objects.all()
