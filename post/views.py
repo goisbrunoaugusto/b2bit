@@ -1,24 +1,31 @@
-import logging
-
-from .models import Post
-from .serializers import PostSerializer, LikeSerializer, EditSerializer, ListPostSerializer
+"""
+Views for the post app
+"""
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.exceptions import PermissionDenied
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.views.decorators.vary import vary_on_headers
 from django.core.cache import cache
-from rest_framework.exceptions import PermissionDenied
+from .models import Post
+from .serializers import PostSerializer, LikeSerializer, EditSerializer, ListPostSerializer
 
 def clear_user_cache(user_id):
+    """
+    Clear cache for a specific user, including all pages
+    """
     for page_number in cache.keys(f"*{user_id}*"):
         cache.delete(page_number)
 
 class CreatePostView(CreateAPIView):
+    """
+    View for creating a new post
+    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
@@ -27,8 +34,10 @@ class CreatePostView(CreateAPIView):
         clear_user_cache(self.request.user.id)
         serializer.save(user=self.request.user)
 
-
 class DeletePostView(DestroyAPIView):
+    """
+    View for deleting a post
+    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
@@ -47,6 +56,9 @@ class DeletePostView(DestroyAPIView):
         instance.delete()
 
 class EditPostView(RetrieveUpdateDestroyAPIView):
+    """
+    View for editing a post
+    """
     queryset = Post.objects.all()
     serializer_class = EditSerializer
     permission_classes = [IsAuthenticated]
@@ -57,9 +69,9 @@ class EditPostView(RetrieveUpdateDestroyAPIView):
             return Response({"error": "Method not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         return super().dispatch(request, *args, **kwargs)
 
-    def put(self, request, pk, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         try:
-            post = Post.objects.get(pk=pk)
+            post = Post.objects.get(pk=self.kwargs['pk'])
         except Post.DoesNotExist:
             return Response({"error": "Post not found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -75,6 +87,9 @@ class EditPostView(RetrieveUpdateDestroyAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LikePostView(CreateAPIView):
+    """
+    View for liking a post
+    """
     queryset = Post.objects.all()
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticated]
@@ -96,11 +111,17 @@ class LikePostView(CreateAPIView):
         }, status=status.HTTP_200_OK)
 
 class PostPagination(PageNumberPagination):
+    """
+    Custom pagination class for posts
+    """
     page_size = 5
 
 @method_decorator(vary_on_headers('Authorization'), name='dispatch')
 @method_decorator(cache_page(settings.CACHE_TTL), name='dispatch')
 class FollowingPostsView(ListAPIView):
+    """
+    View for listing all posts of the users that the authenticated user is following
+    """
     serializer_class = ListPostSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PostPagination
@@ -135,6 +156,9 @@ class FollowingPostsView(ListAPIView):
 @method_decorator(vary_on_headers('Authorization'), name='dispatch')
 @method_decorator(cache_page(settings.CACHE_TTL), name='dispatch')
 class UserPostsView(ListAPIView):
+    """
+    View for listing all posts of the authenticated user
+    """
     serializer_class = ListPostSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PostPagination

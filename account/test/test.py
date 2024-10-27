@@ -5,7 +5,7 @@ from account.models import UserData
 
 
 class UserAPITestCase(APITestCase):
-    def setUp(self):
+    def set_up(self):
         self.user1 = UserData.objects.create_user(email="user1@example.com", name="User One", password="password123")
         self.user2 = UserData.objects.create_user(email="user2@example.com", name="User Two", password="password123")
 

@@ -1,13 +1,19 @@
-from .tasks import send_follow_notification_email
-from .serializers import UserSerializer, FollowSerializer, FollowingUserSerializer, FollowerUserSerializer, \
-    UserInfoSerializer
+"""
+Views for the account app
+"""
+from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView
 from .models import UserData
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework import status
+from .serializers import UserSerializer, FollowSerializer, FollowingUserSerializer, FollowerUserSerializer, \
+    UserInfoSerializer
+from .tasks import send_follow_notification_email
 
 class RegisterView(CreateAPIView):
+    """
+    View for registering a new user
+    """
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
 
@@ -19,6 +25,9 @@ class RegisterView(CreateAPIView):
 
 
 class UserInfoView(RetrieveUpdateDestroyAPIView):
+    """
+    View for getting, updating and deleting user information
+    """
     serializer_class = UserInfoSerializer
     permission_classes = [IsAuthenticated]
 
@@ -40,6 +49,9 @@ class UserInfoView(RetrieveUpdateDestroyAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class FollowView(RetrieveUpdateDestroyAPIView):
+    """
+    View for following and unfollowing a user
+    """
     queryset = UserData.objects.all()
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]
@@ -62,6 +74,9 @@ class FollowView(RetrieveUpdateDestroyAPIView):
 
 
 class FollowerListView(ListAPIView):
+    """
+    View for listing all followers of the authenticated user
+    """
     serializer_class = FollowerUserSerializer
     permission_classes = [IsAuthenticated]
 
@@ -82,6 +97,9 @@ class FollowerListView(ListAPIView):
 
 
 class FollowingListView(ListAPIView):
+    """
+    View for listing all users the authenticated user is following
+    """
     serializer_class = FollowingUserSerializer
     permission_classes = [IsAuthenticated]
 
