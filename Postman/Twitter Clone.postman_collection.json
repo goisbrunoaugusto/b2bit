@@ -1,0 +1,662 @@
+{
+	"info": {
+		"_postman_id": "34f780e6-f833-4f8e-8236-ae7f07d65185",
+		"name": "Twitter Clone",
+		"description": "# Project made for the B2Bit coding challenge\n\n---\n\nContains endpoints and documentation for the existing endpoints that vary from posts, user and follow related endpoints.\n\n---\n\nAuthor: Bruno Augusto G. de Gois",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34153082"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "User endpoints",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "bruno@hotmail.com",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "bruno",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/account/register/"
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.collectionVariables.set(\"account_jwt\", jsonData.access);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "bruno@hotmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/account/login/"
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Info",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": "http://localhost:8000/account/user/"
+							},
+							"response": []
+						},
+						{
+							"name": "Edit User Info",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "brunoooo",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "bruno@hotmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/account/user/"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:8000/account/user/"
+							},
+							"response": []
+						}
+					],
+					"description": "# Collection of user endpoints\n\n---\n\n## Register\n\nRequired fields\n\n- name\n    \n- email\n    \n- password\n    \n\nReturns 201 if created successfully with info about the user created\n\n---\n\n## Login\n\nRequired fields\n\n- email\n    \n- password\n    \n\nReturns 200 if login was successfull. Request body with token (access) and refresh token (refresh)\n\n---\n\n## Get user info\n\nThis endpoint retrives information about the user logged in\n\n- id\n    \n- name\n    \n- email\n    \n- date joined\n    \n- number of followers and following\n    \n\n---\n\n## Edit user info\n\nEndpoint to edit name and email of the user logged in.\n\nReturns 200 with info about the edited user if successfull\n\n---\n\n## Delete User\n\nEndpoint to delete the user logged in\n\nReturns 204 if deletion was successfull"
+				},
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "Create Post",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "content",
+											"value": "Teste de criacao de post 4",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/post/create/"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Post w/ Image",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "content",
+											"value": "Teste de criacao de post 4",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "postman-cloud:///1ef90017-45db-4500-b917-b434129c6d84"
+										}
+									]
+								},
+								"url": "http://localhost:8000/post/create/"
+							},
+							"response": []
+						},
+						{
+							"name": "Like Post",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "http://localhost:8000/post/like/51/"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Post",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:8000/post/delete/38/"
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Post",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "content",
+											"value": "Teste de edução de post 1246",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/post/edit/51/"
+							},
+							"response": []
+						},
+						{
+							"name": "Feed",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/post/feed/"
+							},
+							"response": []
+						},
+						{
+							"name": "Current User Posts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/post/feed/current/"
+							},
+							"response": []
+						}
+					],
+					"description": "# Collection of posts endpoints\n\n---\n\n## Create post\n\nEndpoint to create a post.\n\nRequired fields\n\n- Content\n    \n\nReturns 201 and info about the post if the creation was successfull\n\n- ID of the post\n    \n- Email of the user who created it\n    \n- Image (optional)\n    \n- Created at\n    \n\n---\n\n## Like post\n\nEndpoint for a user to like a post\n\nRequired params in the URL\n\n- Post ID\n    \n\nReturns 200 with info about the post if like was successfull\n\n- Post ID\n    \n- Number of likes\n    \n\n---\n\n## Delete post\n\nEndpoint to delete a post\n\nRequired params in the URL\n\n- Post ID\n    \n\nReturns 204 if deletion was successfull\n\n---\n\n## Edit post\n\nEndpoint to edit a post\n\nRequired params in the URL\n\n- Post ID\n    \n\nRequired fields\n\n- Content\n    \n\nReturns 200 if edit was successfull and info about the post\n\n- Post ID\n    \n- Number of likes\n    \n- New content\n    \n- Post owner\n    \n\n---\n\n## Feed\n\nEndpoint to get the list of posts from current user's following ordered by most recent\n\n---\n\n## Current user posts\n\nEndpoint to get the posts from the logged in user"
+				},
+				{
+					"name": "Follow Related",
+					"item": [
+						{
+							"name": "Follow",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "http://localhost:8000/account/follow/1/"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Following",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/account/following/"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Followers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/account/followers/"
+							},
+							"response": []
+						}
+					],
+					"description": "# Collection of follow related infos\n\n---\n\n## Follow\n\nEndpoint for the logged in user to follow someone\n\nRequired params in the URL\n\n- ID of the user to be followed\n    \n\n---\n\n## Get followers\n\nEndpoint to get info about the users that follow the current user\n\n---\n\n## Get following\n\nEndpoint to get info about users that the current user is following"
+				}
+			],
+			"description": "# Collection of endpoints for a user",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{account_jwt}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Account 2",
+			"item": [
+				{
+					"name": "User endpoints",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "ramon@hotmail.com",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "ramon",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/account/register/"
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.collectionVariables.set(\"account_jwt\", jsonData.access);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "ramon@hotmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/account/login/"
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Info",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": "http://localhost:8000/account/user/"
+							},
+							"response": []
+						},
+						{
+							"name": "Edit User Info",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "brunoooo",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "bruno@hotmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/account/user/"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:8000/account/user/"
+							},
+							"response": []
+						}
+					],
+					"description": "# Collection of user endpoints\n\n---\n\n## Register\n\nRequired fields\n\n- name\n    \n- email\n    \n- password\n    \n\nReturns 201 if created successfully with info about the user created\n\n---\n\n## Login\n\nRequired fields\n\n- email\n    \n- password\n    \n\nReturns 200 if login was successfull. Request body with token (access) and refresh token (refresh)\n\n---\n\n## Get user info\n\nThis endpoint retrives information about the user logged in\n\n- id\n    \n- name\n    \n- email\n    \n- date joined\n    \n- number of followers and following\n    \n\n---\n\n## Edit user info\n\nEndpoint to edit name and email of the user logged in.\n\nReturns 200 with info about the edited user if successfull\n\n---\n\n## Delete User\n\nEndpoint to delete the user logged in\n\nReturns 204 if deletion was successfull"
+				},
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "Create Post",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "content",
+											"value": "Teste de criacao de post 4",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/post/create/"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Post w/ Image",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "content",
+											"value": "Teste de criacao de post 4",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "postman-cloud:///1ef90017-45db-4500-b917-b434129c6d84"
+										}
+									]
+								},
+								"url": "http://localhost:8000/post/create/"
+							},
+							"response": []
+						},
+						{
+							"name": "Like Post",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "http://localhost:8000/post/like/51/"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Post",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:8000/post/delete/38/"
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Post",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "content",
+											"value": "Teste de edução de post 1246",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:8000/post/edit/51/"
+							},
+							"response": []
+						},
+						{
+							"name": "Feed",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/post/feed/"
+							},
+							"response": []
+						},
+						{
+							"name": "Current User Posts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/post/feed/current/"
+							},
+							"response": []
+						}
+					],
+					"description": "# Collection of posts endpoints\n\n---\n\n## Create post\n\nEndpoint to create a post.\n\nRequired fields\n\n- Content\n    \n\nReturns 201 and info about the post if the creation was successfull\n\n- ID of the post\n    \n- Email of the user who created it\n    \n- Image (optional)\n    \n- Created at\n    \n\n---\n\n## Like post\n\nEndpoint for a user to like a post\n\nRequired params in the URL\n\n- Post ID\n    \n\nReturns 200 with info about the post if like was successfull\n\n- Post ID\n    \n- Number of likes\n    \n\n---\n\n## Delete post\n\nEndpoint to delete a post\n\nRequired params in the URL\n\n- Post ID\n    \n\nReturns 204 if deletion was successfull\n\n---\n\n## Edit post\n\nEndpoint to edit a post\n\nRequired params in the URL\n\n- Post ID\n    \n\nRequired fields\n\n- Content\n    \n\nReturns 200 if edit was successfull and info about the post\n\n- Post ID\n    \n- Number of likes\n    \n- New content\n    \n- Post owner\n    \n\n---\n\n## Feed\n\nEndpoint to get the list of posts from current user's following ordered by most recent\n\n---\n\n## Current user posts\n\nEndpoint to get the posts from the logged in user"
+				},
+				{
+					"name": "Follow Related",
+					"item": [
+						{
+							"name": "Follow",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "http://localhost:8000/account/follow/1/"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Following",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/account/following/"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Followers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/account/followers/"
+							},
+							"response": []
+						}
+					],
+					"description": "# Collection of follow related infos\n\n---\n\n## Follow\n\nEndpoint for the logged in user to follow someone\n\nRequired params in the URL\n\n- ID of the user to be followed\n    \n\n---\n\n## Get followers\n\nEndpoint to get info about the users that follow the current user\n\n---\n\n## Get following\n\nEndpoint to get info about users that the current user is following"
+				}
+			],
+			"description": "# Collection of endpoints for a user",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{account_jwt}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "account_jwt",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "account2_jwt",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "account3_jwt",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
