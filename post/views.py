@@ -26,7 +26,7 @@ def clear_followers_cache(user):
     """
     Invalidate the cache for all followers of a user.
     """
-    followers = user.followers.all()  # Assuming 'followers' is the related name for the followers.
+    followers = user.followers.all()
 
     for follower in followers:
         page_number = 1
@@ -34,7 +34,7 @@ def clear_followers_cache(user):
             cache_key = f"following_posts_{follower.id}_page_{page_number}"
             if cache.get(cache_key):
                 cache.delete(cache_key)
-                page_number += 1  # Check the next page in cache
+                page_number += 1
             else:
                 break
 
