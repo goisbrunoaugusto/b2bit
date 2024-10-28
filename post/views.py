@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.exceptions import PermissionDenied
-from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.views.decorators.vary import vary_on_headers
@@ -19,8 +18,25 @@ def clear_user_cache(user_id):
     """
     Clear cache for a specific user, including all pages
     """
-    for page_number in cache.keys(f"*{user_id}*"):
-        cache.delete(page_number)
+    cache_keys = cache.keys(f"*{user_id}*")
+    for key in cache_keys:
+        cache.delete(key)
+
+def clear_followers_cache(user):
+    """
+    Invalidate the cache for all followers of a user.
+    """
+    followers = user.followers.all()  # Assuming 'followers' is the related name for the followers.
+
+    for follower in followers:
+        page_number = 1
+        while True:
+            cache_key = f"following_posts_{follower.id}_page_{page_number}"
+            if cache.get(cache_key):
+                cache.delete(cache_key)
+                page_number += 1  # Check the next page in cache
+            else:
+                break
 
 class CreatePostView(CreateAPIView):
     """
@@ -31,6 +47,7 @@ class CreatePostView(CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
+        clear_followers_cache(self.request.user)
         clear_user_cache(self.request.user.id)
         serializer.save(user=self.request.user)
 
@@ -82,7 +99,8 @@ class EditPostView(RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(post, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            clear_user_cache(self.request.user.id)
+            clear_followers_cache(post.user)
+            clear_user_cache(post.user.id)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -117,7 +135,6 @@ class PostPagination(PageNumberPagination):
     page_size = 5
 
 @method_decorator(vary_on_headers('Authorization'), name='dispatch')
-@method_decorator(cache_page(settings.CACHE_TTL), name='dispatch')
 class FollowingPostsView(ListAPIView):
     """
     View for listing all posts of the users that the authenticated user is following
@@ -134,6 +151,11 @@ class FollowingPostsView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         user = self.request.user
+
+        if not user.following.exists():
+            clear_user_cache(user.id)
+            return Response(["You are not following any users."])
+
         page_number = request.query_params.get('page', 1)
         cache_key = f"following_posts_{user.id}_page_{page_number}"
         cached_data = cache.get(cache_key)
@@ -146,15 +168,16 @@ class FollowingPostsView(ListAPIView):
 
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            cache.set(cache_key, serializer.data, timeout=settings.CACHE_TTL)
-            return self.get_paginated_response(serializer.data)
+            paginated_response = self.get_paginated_response(serializer.data)
+            cache.set(cache_key, paginated_response.data, timeout=settings.CACHE_TTL)
+
+            return paginated_response
 
         serializer = self.get_serializer(queryset, many=True)
         cache.set(cache_key, serializer.data, timeout=settings.CACHE_TTL)
         return Response(serializer.data)
 
 @method_decorator(vary_on_headers('Authorization'), name='dispatch')
-@method_decorator(cache_page(settings.CACHE_TTL), name='dispatch')
 class UserPostsView(ListAPIView):
     """
     View for listing all posts of the authenticated user
