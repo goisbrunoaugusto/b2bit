@@ -8,6 +8,7 @@ This a clone of twitter's back end for the B2Bit developer selection
 Prerequisites:
 * [Docker Installed](https://docs.docker.com/get-started/get-docker/)
 * [Docker Compose Installed](https://docs.docker.com/compose/install/)
+* Need a .env file inside the project folder, example below
 
 ## Observations
 1. In this project I'm using [MailDev](https://github.com/maildev/maildev) to simulate the asynchronously send of emails when a user is followed. It can be accessed by the http://localhost:1080/
@@ -15,7 +16,6 @@ Prerequisites:
 ```bash
  python manage.py test account && python manage.py test post
 ```
-3. The caching system isn't 100%, don't try to use the feed enpoint without following anyone and don't try to use the current user posts without having posted anything
 ## Usage
 
 ```bash
@@ -26,3 +26,16 @@ docker compose up --build
 
 ## Postman Documentation
 The Postman collection can be found inside the Postman folder in this project
+
+## .env file model
+POSTGRES_PASSWORD=
+POSTGRES_USER=
+POSTGRES_DB=
+POSTGRES_PORT=
+POSTGRES_HOST=
+
+REDIS_PORT=
+REDIS_URL=
+BROKER_URL=
+RESULT_BACKEND=
+
