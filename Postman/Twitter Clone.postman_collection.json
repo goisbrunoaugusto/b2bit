@@ -196,7 +196,7 @@
 							"request": {
 								"method": "POST",
 								"header": [],
-								"url": "http://localhost:8000/post/like/51/"
+								"url": "http://localhost:8000/post/like/1/"
 							},
 							"response": []
 						},
@@ -205,7 +205,7 @@
 							"request": {
 								"method": "DELETE",
 								"header": [],
-								"url": "http://localhost:8000/post/delete/38/"
+								"url": "http://localhost:8000/post/delete/1/"
 							},
 							"response": []
 						},
@@ -369,7 +369,7 @@
 									"script": {
 										"exec": [
 											"let jsonData = pm.response.json();",
-											"pm.collectionVariables.set(\"account_jwt\", jsonData.access);",
+											"pm.collectionVariables.set(\"account2_jwt\", jsonData.access);",
 											""
 										],
 										"type": "text/javascript",
@@ -593,7 +593,7 @@
 			"auth": {
 				"type": "bearer",
 				"bearer": {
-					"token": "{{account_jwt}}"
+					"token": "{{account2_jwt}}"
 				}
 			},
 			"event": [
@@ -650,11 +650,6 @@
 		},
 		{
 			"key": "account2_jwt",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "account3_jwt",
 			"value": "",
 			"type": "string"
 		}
