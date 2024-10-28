@@ -28,14 +28,14 @@ docker compose up --build
 The Postman collection can be found inside the Postman folder in this project
 
 ## .env file model
-POSTGRES_PASSWORD=
-POSTGRES_USER=
-POSTGRES_DB=
-POSTGRES_PORT=
+POSTGRES_PASSWORD=\
+POSTGRES_USER=\
+POSTGRES_DB=\
+POSTGRES_PORT=\
 POSTGRES_HOST=
 
-REDIS_PORT=
-REDIS_URL=
-BROKER_URL=
+REDIS_PORT=\
+REDIS_URL=\
+BROKER_URL=\
 RESULT_BACKEND=
 
