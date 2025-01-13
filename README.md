@@ -1,4 +1,4 @@
-# Twitter clone project for B2Bit
+# Twitter clone project
 
 This a clone of twitter's back end for the B2Bit developer selection
 
